@@ -1,7 +1,4 @@
-
 const { google } = require('googleapis');
-
-let accessToken = null;
 
 module.exports = async (req, res) => {
   const oauth2Client = new google.auth.OAuth2(
@@ -14,10 +11,9 @@ module.exports = async (req, res) => {
   try {
     const { tokens } = await oauth2Client.getToken(code);
     oauth2Client.setCredentials(tokens);
-    accessToken = tokens.access_token;
     res.status(200).send('✅ ¡Autenticación exitosa! Ya puedes usar /api/calendar-events');
   } catch (error) {
-    console.error(error);
+    console.error('❌ Error al obtener el token', error);
     res.status(500).send('❌ Error al obtener el token');
   }
 };
